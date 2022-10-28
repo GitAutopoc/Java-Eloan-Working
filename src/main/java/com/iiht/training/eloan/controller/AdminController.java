@@ -22,26 +22,4 @@ public class AdminController {
 
 	@Autowired
 	private AdminService adminService;
-	
-	@PostMapping("/register-clerk")
-	public ResponseEntity<UserDto> registerClerk(@Valid @RequestBody UserDto userDto){
-		return new ResponseEntity<UserDto>(adminService.registerClerk(userDto), HttpStatus.CREATED);
-	}
-	
-	@PostMapping("/register-manager")
-	public ResponseEntity<UserDto> registerManager(@Valid @RequestBody UserDto userDto){
-		return new ResponseEntity<UserDto>(adminService.registerManager(userDto), HttpStatus.CREATED);
-	}
-	
-	@GetMapping("/all-clerks")
-	public ResponseEntity<List<UserDto>> getAllClerks(){
-		return new ResponseEntity<List<UserDto>>(adminService.getAllClerks(), HttpStatus.OK);
-	}
-	
-	@GetMapping("/all-managers")
-	public ResponseEntity<List<UserDto>> getAllManagers(){
-		return new ResponseEntity<List<UserDto>>(adminService.getAllManagers(), HttpStatus.OK);
-	}
-	
-	
 }
