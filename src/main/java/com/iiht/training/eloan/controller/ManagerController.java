@@ -31,44 +31,4 @@ public class ManagerController {
 	@Autowired
 	private ManagerService managerService;
 	
-	@GetMapping("/all-processed")
-	public ResponseEntity<List<LoanOutputDto>> allProcessedLoans() {
-		return new ResponseEntity<List<LoanOutputDto>>(managerService.allProcessedLoans(), HttpStatus.OK);
-	}
-	
-	@PostMapping("/reject-loan/{managerId}/{loanAppId}")
-	public ResponseEntity<RejectDto> rejectLoan(@PathVariable Long managerId,
-												@PathVariable Long loanAppId,
-												@RequestBody RejectDto rejectDto){
-		return new ResponseEntity<RejectDto>(managerService.rejectLoan(managerId, loanAppId, rejectDto), HttpStatus.OK);
-	}
-	
-	@PostMapping("/sanction-loan/{managerId}/{loanAppId}")
-	public ResponseEntity<SanctionOutputDto> sanctionLoan(@PathVariable Long managerId,
-												@PathVariable Long loanAppId,
-												@Valid @RequestBody SanctionDto sanctionDto){
-		return new ResponseEntity<SanctionOutputDto>(managerService.sanctionLoan(managerId, loanAppId, sanctionDto), HttpStatus.OK);
-	}
-	
-	@ExceptionHandler(ManagerNotFoundException.class)
-	public ResponseEntity<ExceptionResponse> handler(ManagerNotFoundException ex){
-		ExceptionResponse exception = 
-				new ExceptionResponse(ex.getMessage(),
-									  System.currentTimeMillis(),
-									  HttpStatus.NOT_FOUND.value());
-		ResponseEntity<ExceptionResponse> response =
-				new ResponseEntity<ExceptionResponse>(exception, HttpStatus.NOT_FOUND);
-		return response;
-	}
-	
-	@ExceptionHandler(AlreadyFinalizedException.class)
-	public ResponseEntity<ExceptionResponse> handler(AlreadyFinalizedException ex){
-		ExceptionResponse exception = 
-				new ExceptionResponse(ex.getMessage(),
-									  System.currentTimeMillis(),
-									  HttpStatus.BAD_REQUEST.value());
-		ResponseEntity<ExceptionResponse> response =
-				new ResponseEntity<ExceptionResponse>(exception, HttpStatus.BAD_REQUEST);
-		return response;
-	}
 }
