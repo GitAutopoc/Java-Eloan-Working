@@ -30,40 +30,4 @@ public class ClerkController {
 	@Autowired
 	private ClerkService clerkService;
 	
-	@GetMapping("/all-applied")
-	public ResponseEntity<List<LoanOutputDto>> allAppliedLoans() {
-		List<LoanOutputDto> loanODto = clerkService.allAppliedLoans();
-		if(loanODto == null || loanODto.size() == 0)
-			throw new InvalidDataException("No Applied Loan Found");
-		else	
-		  return new ResponseEntity<List<LoanOutputDto>>(loanODto, HttpStatus.OK);
-	}
-	
-	@PostMapping("/process/{clerkId}/{loanAppId}")
-	public ResponseEntity<ProcessingDto> processLoan(@PathVariable Long clerkId,
-													 @PathVariable Long loanAppId,
-													@Valid @RequestBody ProcessingDto processingDto) {
-		return new ResponseEntity<ProcessingDto>(clerkService.processLoan(clerkId, loanAppId, processingDto), HttpStatus.OK);
-	}
-	@ExceptionHandler(ClerkNotFoundException.class)
-	public ResponseEntity<ExceptionResponse> handler(ClerkNotFoundException ex){
-		ExceptionResponse exception = 
-				new ExceptionResponse(ex.getMessage(),
-									  System.currentTimeMillis(),
-									  HttpStatus.NOT_FOUND.value());
-		ResponseEntity<ExceptionResponse> response =
-				new ResponseEntity<ExceptionResponse>(exception, HttpStatus.NOT_FOUND);
-		return response;
-	}
-	
-	@ExceptionHandler(AlreadyProcessedException.class)
-	public ResponseEntity<ExceptionResponse> handler(AlreadyProcessedException ex){
-		ExceptionResponse exception = 
-				new ExceptionResponse(ex.getMessage(),
-									  System.currentTimeMillis(),
-									  HttpStatus.BAD_REQUEST.value());
-		ResponseEntity<ExceptionResponse> response =
-				new ResponseEntity<ExceptionResponse>(exception, HttpStatus.BAD_REQUEST);
-		return response;
-	}
 }
